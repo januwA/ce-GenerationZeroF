@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="31">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"子弹无消耗"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+
+aobscanmodule(bullet_INJECT,GenerationZero_F.exe,41 2B C6 4C 8B 06)
+alloc(newmem,$1000,"GenerationZero_F.exe"+5BC5E4)
+
+alloc(iBullet, $16)
+registersymbol(iBullet)
+
+iBullet:
+  dq 0
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [iBullet],rsi // [iBullet]+25c
+  mov r14d,0
+  mov eax,#999
+  mov r8,[rsi]
+  jmp return
+
+bullet_INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(bullet_INJECT)
+
+[DISABLE]
+
+bullet_INJECT:
+  db 41 2B C6 4C 8B 06
+unregistersymbol(iBullet)
+dealloc(iBullet)
+unregistersymbol(bullet_INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GenerationZero_F.exe"+5BC5E4
+
+"GenerationZero_F.exe"+5BC5C2: F0 0F C1 7B 0C           - lock  xadd [rbx+0C],edi
+"GenerationZero_F.exe"+5BC5C7: 83 FF 01                 -  cmp edi,01
+"GenerationZero_F.exe"+5BC5CA: 75 0C                    -  jne GenerationZero_F.exe+5BC5D8
+"GenerationZero_F.exe"+5BC5CC: 48 8B 4C 24 30           -  mov rcx,[rsp+30]
+"GenerationZero_F.exe"+5BC5D1: 48 8B 01                 -  mov rax,[rcx]
+"GenerationZero_F.exe"+5BC5D4: FF 50 10                 -  call qword ptr [rax+10]
+"GenerationZero_F.exe"+5BC5D7: 90                       -  nop 
+"GenerationZero_F.exe"+5BC5D8: 48 8B 06                 -  mov rax,[rsi]
+"GenerationZero_F.exe"+5BC5DB: 48 8B CE                 -  mov rcx,rsi
+"GenerationZero_F.exe"+5BC5DE: FF 90 D8 00 00 00        -  call qword ptr [rax+000000D8]
+// ---------- INJECTING HERE ----------
+"GenerationZero_F.exe"+5BC5E4: 41 2B C6                 -  sub eax,r14d
+"GenerationZero_F.exe"+5BC5E7: 4C 8B 06                 -  mov r8,[rsi]
+// ---------- DONE INJECTING  ----------
+"GenerationZero_F.exe"+5BC5EA: 85 C0                    -  test eax,eax
+"GenerationZero_F.exe"+5BC5EC: 0F 4F E8                 -  cmovg ebp,eax
+"GenerationZero_F.exe"+5BC5EF: 8B D5                    -  mov edx,ebp
+"GenerationZero_F.exe"+5BC5F1: 48 8B CE                 -  mov rcx,rsi
+"GenerationZero_F.exe"+5BC5F4: 41 FF 90 80 01 00 00     -  call qword ptr [r8+00000180]
+"GenerationZero_F.exe"+5BC5FB: 8B 96 E0 05 00 00        -  mov edx,[rsi+000005E0]
+"GenerationZero_F.exe"+5BC601: 48 8B CE                 -  mov rcx,rsi
+"GenerationZero_F.exe"+5BC604: E8 C7 31 02 00           -  call GenerationZero_F.exe+5DF7D0
+"GenerationZero_F.exe"+5BC609: 45 33 C0                 -  xor r8d,r8d
+"GenerationZero_F.exe"+5BC60C: 41 8B D6                 -  mov edx,r14d
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>5</ID>
+          <Description>"弹药数量"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[iBullet]+25c</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"锁血"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+
+aobscanmodule(hp_INJECT,GenerationZero_F.exe,25 66 0F 6E 88 14 02 00 00)
+alloc(newmem,$1000,"GenerationZero_F.exe"+4C4E84)
+
+alloc(iHp, $16)
+registersymbol(iHp)
+iHp:
+ dq 0
+
+label(code)
+label(return)
+
+newmem:
+  mov [iHp],rax
+  mov [rax+00000214],#1000
+
+code:
+  movd xmm1,[rax+00000214]
+  jmp return
+
+hp_INJECT+01:
+  jmp newmem
+  nop 3
+return:
+registersymbol(hp_INJECT)
+
+[DISABLE]
+
+hp_INJECT+01:
+  db 66 0F 6E 88 14 02 00 00
+unregistersymbol(iHp)
+dealloc(iHp)
+unregistersymbol(hp_INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GenerationZero_F.exe"+4C4E84
+
+"GenerationZero_F.exe"+4C4E68: 77 58                    -  ja GenerationZero_F.exe+4C4EC2
+"GenerationZero_F.exe"+4C4E6A: B0 01                    -  mov al,01
+"GenerationZero_F.exe"+4C4E6C: 48 8B 5C 24 30           -  mov rbx,[rsp+30]
+"GenerationZero_F.exe"+4C4E71: 48 83 C4 20              -  add rsp,20
+"GenerationZero_F.exe"+4C4E75: 5F                       -  pop rdi
+"GenerationZero_F.exe"+4C4E76: C3                       -  ret 
+"GenerationZero_F.exe"+4C4E77: 8B 88 A8 01 00 00        -  mov ecx,[rax+000001A8]
+"GenerationZero_F.exe"+4C4E7D: 0F 57 D2                 -  xorps xmm2,xmm2
+"GenerationZero_F.exe"+4C4E80: 85 C9                    -  test ecx,ecx
+"GenerationZero_F.exe"+4C4E82: 7E 25                    -  jle GenerationZero_F.exe+4C4EA9
+// ---------- INJECTING HERE ----------
+"GenerationZero_F.exe"+4C4E84: 66 0F 6E 88 14 02 00 00  -  movd xmm1,[rax+00000214]
+// ---------- DONE INJECTING  ----------
+"GenerationZero_F.exe"+4C4E8C: 0F 5B C9                 -  cvtdq2ps xmm1,xmm1
+"GenerationZero_F.exe"+4C4E8F: 66 0F 6E C1              -  movd xmm0,ecx
+"GenerationZero_F.exe"+4C4E93: 0F 5B C0                 -  cvtdq2ps xmm0,xmm0
+"GenerationZero_F.exe"+4C4E96: F3 0F 5E C8              -  divss xmm1,xmm0
+"GenerationZero_F.exe"+4C4E9A: F3 0F 5F CA              -  maxss xmm1,xmm2
+"GenerationZero_F.exe"+4C4E9E: 0F 28 D1                 -  movaps xmm2,xmm1
+"GenerationZero_F.exe"+4C4EA1: F3 0F 5D 15 07 68 1F 01  -  minss xmm2,[GenerationZero_F.exe+16BB6B0]
+"GenerationZero_F.exe"+4C4EA9: 0F 2F 57 10              -  comiss xmm2,[rdi+10]
+"GenerationZero_F.exe"+4C4EAD: 72 13                    -  jb GenerationZero_F.exe+4C4EC2
+"GenerationZero_F.exe"+4C4EAF: 0F 2F 57 14              -  comiss xmm2,[rdi+14]
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>7</ID>
+          <Description>"hp"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[iHP]+214</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>14</ID>
+      <Description>"经验 开启p键激活"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+
+aobscanmodule(exp_INJECT,GenerationZero_F.exe,45 8B A4 24 10 03 00 00) // should be unique
+alloc(newmem,$1000,"GenerationZero_F.exe"+8C1BD1)
+
+alloc(iExp, $16)
+registersymbol(iExp)
+iExp:
+  dq 0
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [iExp],r12
+  mov r12d,[r12+00000310]
+  jmp return
+
+exp_INJECT:
+  jmp newmem
+  nop 3
+return:
+registersymbol(exp_INJECT)
+
+[DISABLE]
+
+exp_INJECT:
+  db 45 8B A4 24 10 03 00 00
+unregistersymbol(iExp)
+dealloc(iExp)
+unregistersymbol(exp_INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GenerationZero_F.exe"+8C1BD1
+
+"GenerationZero_F.exe"+8C1BA4: 48 8B 1D 85 8A C1 01        -  mov rbx,[GenerationZero_F.exe+24DA630]
+"GenerationZero_F.exe"+8C1BAB: 41 0F B7 BC 24 14 03 00 00  -  movzx edi,word ptr [r12+00000314]
+"GenerationZero_F.exe"+8C1BB4: 8B D7                       -  mov edx,edi
+"GenerationZero_F.exe"+8C1BB6: 48 8D 4B 30                 -  lea rcx,[rbx+30]
+"GenerationZero_F.exe"+8C1BBA: E8 71 10 F2 FF              -  call GenerationZero_F.exe+7E2C30
+"GenerationZero_F.exe"+8C1BBF: 44 8B F0                    -  mov r14d,eax
+"GenerationZero_F.exe"+8C1BC2: 8D 57 01                    -  lea edx,[rdi+01]
+"GenerationZero_F.exe"+8C1BC5: 48 8D 4B 30                 -  lea rcx,[rbx+30]
+"GenerationZero_F.exe"+8C1BC9: E8 62 10 F2 FF              -  call GenerationZero_F.exe+7E2C30
+"GenerationZero_F.exe"+8C1BCE: 44 8B F8                    -  mov r15d,eax
+// ---------- INJECTING HERE ----------
+"GenerationZero_F.exe"+8C1BD1: 45 8B A4 24 10 03 00 00     -  mov r12d,[r12+00000310]
+// ---------- DONE INJECTING  ----------
+"GenerationZero_F.exe"+8C1BD9: 8B 9B 10 01 00 00           -  mov ebx,[rbx+00000110]
+"GenerationZero_F.exe"+8C1BDF: 66 0F 6F 05 B9 9B DF 00     -  movdqa xmm0,[GenerationZero_F.exe+16BB7A0]
+"GenerationZero_F.exe"+8C1BE7: F3 0F 7F 45 78              -  movdqu [rbp+78],xmm0
+"GenerationZero_F.exe"+8C1BEC: 33 C0                       -  xor eax,eax
+"GenerationZero_F.exe"+8C1BEE: 48 89 85 88 00 00 00        -  mov [rbp+00000088],rax
+"GenerationZero_F.exe"+8C1BF5: 89 85 90 00 00 00           -  mov [rbp+00000090],eax
+"GenerationZero_F.exe"+8C1BFB: 48 8B 4C 24 58              -  mov rcx,[rsp+58]
+"GenerationZero_F.exe"+8C1C00: E8 2B E9 03 00              -  call GenerationZero_F.exe+900530
+"GenerationZero_F.exe"+8C1C05: 48 8B C8                    -  mov rcx,rax
+"GenerationZero_F.exe"+8C1C08: 48 8D 55 78                 -  lea rdx,[rbp+78]
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>15</ID>
+          <Description>"exp"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[iExp]+310</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>16</ID>
+      <Description>"技能点数 开启p键激活"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+
+aobscanmodule(iSkillPoints_INJECT,GenerationZero_F.exe,8B 98 08 03 00 00) // should be unique
+alloc(newmem,$1000,"GenerationZero_F.exe"+8C2458)
+
+alloc(iSkillPoints, $16)
+registersymbol(iSkillPoints)
+iSkillPoints:
+  dq 0
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [iSkillPoints],rax
+  mov ebx,[rax+00000308]
+  jmp return
+
+iSkillPoints_INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(iSkillPoints_INJECT)
+
+[DISABLE]
+
+iSkillPoints_INJECT:
+  db 8B 98 08 03 00 00
+unregistersymbol(iSkillPoints)
+dealloc(iSkillPoints)
+unregistersymbol(iSkillPoints_INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GenerationZero_F.exe"+8C2458
+
+"GenerationZero_F.exe"+8C2431: 0F 94 C0                 -  sete al
+"GenerationZero_F.exe"+8C2434: 88 44 24 20              -  mov [rsp+20],al
+"GenerationZero_F.exe"+8C2438: 4C 8D 4D 18              -  lea r9,[rbp+18]
+"GenerationZero_F.exe"+8C243C: 4C 8D 05 D5 FC F1 00     -  lea r8,[GenerationZero_F.exe+17E2118]
+"GenerationZero_F.exe"+8C2443: 48 8B 57 20              -  mov rdx,[rdi+20]
+"GenerationZero_F.exe"+8C2447: 48 8B 4F 10              -  mov rcx,[rdi+10]
+"GenerationZero_F.exe"+8C244B: E8 50 D6 92 00           -  call GenerationZero_F.exe+11EFAA0
+"GenerationZero_F.exe"+8C2450: 84 C0                    -  test al,al
+"GenerationZero_F.exe"+8C2452: 74 5C                    -  je GenerationZero_F.exe+8C24B0
+"GenerationZero_F.exe"+8C2454: 48 8B 45 B0              -  mov rax,[rbp-50]
+// ---------- INJECTING HERE ----------
+"GenerationZero_F.exe"+8C2458: 8B 98 08 03 00 00        -  mov ebx,[rax+00000308]
+// ---------- DONE INJECTING  ----------
+"GenerationZero_F.exe"+8C245E: 8B 45 30                 -  mov eax,[rbp+30]
+"GenerationZero_F.exe"+8C2461: C1 E8 06                 -  shr eax,06
+"GenerationZero_F.exe"+8C2464: A8 01                    -  test al,01
+"GenerationZero_F.exe"+8C2466: 74 15                    -  je GenerationZero_F.exe+8C247D
+"GenerationZero_F.exe"+8C2468: 4C 8B 45 38              -  mov r8,[rbp+38]
+"GenerationZero_F.exe"+8C246C: 48 8D 55 18              -  lea rdx,[rbp+18]
+"GenerationZero_F.exe"+8C2470: 48 8B 4D 28              -  mov rcx,[rbp+28]
+"GenerationZero_F.exe"+8C2474: E8 47 C9 93 00           -  call GenerationZero_F.exe+11FEDC0
+"GenerationZero_F.exe"+8C2479: 4C 89 65 28              -  mov [rbp+28],r12
+"GenerationZero_F.exe"+8C247D: C7 45 30 03 00 00 00     -  mov [rbp+30],00000003
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>17</ID>
+          <Description>"Skill Points"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[iSkillPoints]+308</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>23</ID>
+      <Description>"子弹999"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+aobscanmodule(yyyy_INJECT,GenerationZero_F.exe,8B 81 5C 02 00 00) // should be unique
+alloc(newmem,$1000,"GenerationZero_F.exe"+5C69CE)
+
+label(code)
+label(return)
+
+newmem:
+  //cmp [rcx+0000025C],#999
+  //je code
+  mov [rcx+0000025C],#1
+  jmp code
+
+code:
+  mov eax,[rcx+0000025C]
+  jmp return
+
+yyyy_INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(yyyy_INJECT)
+
+[DISABLE]
+
+yyyy_INJECT:
+  db 8B 81 5C 02 00 00
+
+unregistersymbol(yyyy_INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GenerationZero_F.exe"+5C69CE
+
+"GenerationZero_F.exe"+5C69AE: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69AF: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69B0: 8B 91 40 01 00 00           -  mov edx,[rcx+00000140]
+"GenerationZero_F.exe"+5C69B6: 8D 42 FF                    -  lea eax,[rdx-01]
+"GenerationZero_F.exe"+5C69B9: 83 F8 05                    -  cmp eax,05
+"GenerationZero_F.exe"+5C69BC: 76 10                       -  jna GenerationZero_F.exe+5C69CE
+"GenerationZero_F.exe"+5C69BE: 83 FA 0D                    -  cmp edx,0D
+"GenerationZero_F.exe"+5C69C1: 74 0B                       -  je GenerationZero_F.exe+5C69CE
+"GenerationZero_F.exe"+5C69C3: 8B 89 88 01 00 00           -  mov ecx,[rcx+00000188]
+"GenerationZero_F.exe"+5C69C9: E9 E2 DA FF FF              -  jmp GenerationZero_F.exe+5C44B0
+// ---------- INJECTING HERE ----------
+"GenerationZero_F.exe"+5C69CE: 8B 81 5C 02 00 00           -  mov eax,[rcx+0000025C]
+// ---------- DONE INJECTING  ----------
+"GenerationZero_F.exe"+5C69D4: C3                          -  ret 
+"GenerationZero_F.exe"+5C69D5: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69D6: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69D7: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69D8: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69D9: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69DA: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69DB: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69DC: CC                          -  int 3 
+"GenerationZero_F.exe"+5C69DD: CC                          -  int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>24</ID>
+      <Description>"耐力"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+
+aobscanmodule(xt_INJECT,VCRUNTIME140.dll,89 08 C3 0F 1F 00) // should be unique
+alloc(newmem,$1000,"VCRUNTIME140.dll"+13BA)
+
+label(code)
+label(setxxx)
+label(return)
+
+// 心跳 float 最低1 最高2
+
+newmem:
+  // if ecx &lt;= 1 || ecx &gt; 1.3 then code
+  cmp ecx,(float)1 // &lt;= 1 跳
+  jbe code
+  cmp ecx,(float)1.3 // &gt; 2 跳
+
+  //else:
+  ja code
+  jmp setxxx
+
+setxxx:
+  mov ecx, (float)1.25
+  jmp code
+
+code:
+  mov [rax],ecx
+  ret 
+  nop dword ptr [rax]
+  jmp return
+
+xt_INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(xt_INJECT)
+
+[DISABLE]
+
+xt_INJECT:
+  db 89 08 C3 0F 1F 00
+
+unregistersymbol(xt_INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "VCRUNTIME140.dll"+13BA
+
+"VCRUNTIME140.dll"+139D: C3                             -  ret 
+"VCRUNTIME140.dll"+139E: 66 90                          -  nop 2
+"VCRUNTIME140.dll"+13A0: 4C 8B 02                       -  mov r8,[rdx]
+"VCRUNTIME140.dll"+13A3: 0F B7 4A 08                    -  movzx ecx,word ptr [rdx+08]
+"VCRUNTIME140.dll"+13A7: 44 0F B6 4A 0A                 -  movzx r9d,byte ptr [rdx+0A]
+"VCRUNTIME140.dll"+13AC: 4C 89 00                       -  mov [rax],r8
+"VCRUNTIME140.dll"+13AF: 66 89 48 08                    -  mov [rax+08],cx
+"VCRUNTIME140.dll"+13B3: 44 88 48 0A                    -  mov [rax+0A],r9l
+"VCRUNTIME140.dll"+13B7: C3                             -  ret 
+"VCRUNTIME140.dll"+13B8: 8B 0A                          -  mov ecx,[rdx]
+// ---------- INJECTING HERE ----------
+"VCRUNTIME140.dll"+13BA: 89 08                          -  mov [rax],ecx
+"VCRUNTIME140.dll"+13BC: C3                             -  ret 
+"VCRUNTIME140.dll"+13BD: 0F 1F 00                       -  nop dword ptr [rax]
+// ---------- DONE INJECTING  ----------
+"VCRUNTIME140.dll"+13C0: 8B 0A                          -  mov ecx,[rdx]
+"VCRUNTIME140.dll"+13C2: 44 0F B6 42 04                 -  movzx r8d,byte ptr [rdx+04]
+"VCRUNTIME140.dll"+13C7: 89 08                          -  mov [rax],ecx
+"VCRUNTIME140.dll"+13C9: 44 88 40 04                    -  mov [rax+04],r8l
+"VCRUNTIME140.dll"+13CD: C3                             -  ret 
+"VCRUNTIME140.dll"+13CE: 66 90                          -  nop 2
+"VCRUNTIME140.dll"+13D0: 8B 0A                          -  mov ecx,[rdx]
+"VCRUNTIME140.dll"+13D2: 44 0F B7 42 04                 -  movzx r8d,word ptr [rdx+04]
+"VCRUNTIME140.dll"+13D7: 89 08                          -  mov [rax],ecx
+"VCRUNTIME140.dll"+13D9: 66 44 89 40 04                 -  mov [rax+04],r8w
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry Color="20000000">
+      <Description>消耗子弹</Description>
+      <AddressString>GenerationZero_F.exe+5BC5E4</AddressString>
+      <Before>
+        <Byte>90</Byte>
+        <Byte>D8</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>41</Byte>
+        <Byte>2B</Byte>
+        <Byte>C6</Byte>
+      </Actual>
+      <After>
+        <Byte>4C</Byte>
+        <Byte>8B</Byte>
+        <Byte>06</Byte>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>发射子弹事件</Description>
+      <AddressString>GenerationZero_F.exe+5FCD04</AddressString>
+      <Before>
+        <Byte>CB</Byte>
+        <Byte>EB</Byte>
+        <Byte>02</Byte>
+        <Byte>8B</Byte>
+        <Byte>D6</Byte>
+      </Before>
+      <Actual>
+        <Byte>FF</Byte>
+        <Byte>97</Byte>
+        <Byte>A0</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>0F</Byte>
+        <Byte>B6</Byte>
+        <Byte>83</Byte>
+        <Byte>30</Byte>
+        <Byte>01</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>访问子弹</Description>
+      <AddressString>GenerationZero_F.exe+5E1680</AddressString>
+      <Before>
+        <Byte>C3</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>91</Byte>
+        <Byte>5C</Byte>
+        <Byte>02</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>C3</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>hp</Description>
+      <AddressString>GenerationZero_F.exe+5961BC</AddressString>
+      <Before>
+        <Byte>02</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>7E</Byte>
+        <Byte>06</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>91</Byte>
+        <Byte>14</Byte>
+        <Byte>02</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>C3</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>心跳</Description>
+      <AddressString>VCRUNTIME140.dll+13BA</AddressString>
+      <Before>
+        <Byte>48</Byte>
+        <Byte>0A</Byte>
+        <Byte>C3</Byte>
+        <Byte>8B</Byte>
+        <Byte>0A</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>08</Byte>
+      </Actual>
+      <After>
+        <Byte>C3</Byte>
+        <Byte>0F</Byte>
+        <Byte>1F</Byte>
+        <Byte>00</Byte>
+        <Byte>8B</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>获得经验</Description>
+      <AddressString>GenerationZero_F.exe+7E4579</AddressString>
+      <Before>
+        <Byte>E1</Byte>
+        <Byte>44</Byte>
+        <Byte>89</Byte>
+        <Byte>65</Byte>
+        <Byte>5F</Byte>
+      </Before>
+      <Actual>
+        <Byte>44</Byte>
+        <Byte>89</Byte>
+        <Byte>26</Byte>
+      </Actual>
+      <After>
+        <Byte>45</Byte>
+        <Byte>32</Byte>
+        <Byte>E4</Byte>
+        <Byte>44</Byte>
+        <Byte>0F</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>访问技能点</Description>
+      <AddressString>GenerationZero_F.exe+8C2458</AddressString>
+      <Before>
+        <Byte>5C</Byte>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>45</Byte>
+        <Byte>B0</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>98</Byte>
+        <Byte>08</Byte>
+        <Byte>03</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>45</Byte>
+        <Byte>30</Byte>
+        <Byte>C1</Byte>
+        <Byte>E8</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>访问经验</Description>
+      <AddressString>GenerationZero_F.exe+8C1BD1</AddressString>
+      <Before>
+        <Byte>F2</Byte>
+        <Byte>FF</Byte>
+        <Byte>44</Byte>
+        <Byte>8B</Byte>
+        <Byte>F8</Byte>
+      </Before>
+      <Actual>
+        <Byte>45</Byte>
+        <Byte>8B</Byte>
+        <Byte>A4</Byte>
+        <Byte>24</Byte>
+        <Byte>10</Byte>
+        <Byte>03</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>9B</Byte>
+        <Byte>10</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>消耗子弹背包1</Description>
+      <AddressString>GenerationZero_F.exe+11E063A</AddressString>
+      <Before>
+        <Byte>85</Byte>
+        <Byte>20</Byte>
+        <Byte>04</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>41</Byte>
+        <Byte>10</Byte>
+      </Actual>
+      <After>
+        <Byte>E9</Byte>
+        <Byte>3D</Byte>
+        <Byte>F0</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>消耗子弹背包2</Description>
+      <AddressString>GenerationZero_F.exe+11B9193</AddressString>
+      <Before>
+        <Byte>08</Byte>
+        <Byte>0F</Byte>
+        <Byte>10</Byte>
+        <Byte>42</Byte>
+        <Byte>10</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>41</Byte>
+        <Byte>10</Byte>
+      </Actual>
+      <After>
+        <Byte>44</Byte>
+        <Byte>8B</Byte>
+        <Byte>02</Byte>
+        <Byte>41</Byte>
+        <Byte>8B</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>消耗子弹背包3</Description>
+      <AddressString>GenerationZero_F.exe+11C8AA2</AddressString>
+      <Before>
+        <Byte>01</Byte>
+        <Byte>0F</Byte>
+        <Byte>10</Byte>
+        <Byte>4A</Byte>
+        <Byte>10</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>49</Byte>
+        <Byte>10</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>11</Byte>
+        <Byte>8B</Byte>
+        <Byte>C2</Byte>
+        <Byte>83</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>call 星跳</Description>
+      <AddressString>GenerationZero_F.exe+3AA5EF</AddressString>
+      <Before>
+        <Byte>72</Byte>
+        <Byte>08</Byte>
+        <Byte>4C</Byte>
+        <Byte>8B</Byte>
+        <Byte>C7</Byte>
+      </Before>
+      <Actual>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>94</Byte>
+        <Byte>24</Byte>
+        <Byte>A0</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>E8</Byte>
+        <Byte>2E</Byte>
+        <Byte>55</Byte>
+        <Byte>0C</Byte>
+        <Byte>01</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <DisassemblerComments>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+3AA5EF</Address>
+      <Comment>call 星跳
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+5961BC</Address>
+      <Comment>hp
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+5BC5E4</Address>
+      <Comment>消耗子弹
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+5E1680</Address>
+      <Comment>访问子弹
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+5FCD04</Address>
+      <Comment>发射子弹事件
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+7E4579</Address>
+      <Comment>获得经验
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+8C1BD1</Address>
+      <Comment>访问经验
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+8C2458</Address>
+      <Comment>访问技能点
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+11B9193</Address>
+      <Comment>消耗子弹背包2
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+11C8AA2</Address>
+      <Comment>消耗子弹背包3
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"GenerationZero_F.exe"+11E063A</Address>
+      <Comment>消耗子弹背包1
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"VCRUNTIME140.dll"+13BA</Address>
+      <Comment>心跳
+</Comment>
+    </DisassemblerComment>
+  </DisassemblerComments>
+</CheatTable>
